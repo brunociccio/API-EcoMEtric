@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Economia Energética</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <style>
+        .chat-container {
+            background-color: #121212;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .chat-box {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #1c1c1c;
+        }
+        .message-input {
+            width: calc(100% - 80px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .send-button, .logout-button {
+            width: 80px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h2>Chat Economia Energética</h2>
+    <div class="chat-box" id="chat-box"></div>
+    <div>
+        <input type="text" id="userMessage" class="message-input" placeholder="Digite sua pergunta...">
+        <button id="sendButton" class="send-button">Enviar</button>
+    </div>
+    <button id="logoutButton" class="logout-button">Logout</button>
+</div>
+
+<script>
+    document.getElementById("sendButton").addEventListener("click", sendMessage);
+    document.getElementById("userMessage").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    });
+
+    async function sendMessage() {
+        const userMessage = document.getElementById("userMessage").value;
+        if (!userMessage) {
+            alert("Por favor, insira uma mensagem.");
+            return;
+        }
+        const chatBox = document.getElementById("chat-box");
+        chatBox.innerHTML += `<p><strong>Você:</strong> ${userMessage}</p>`;
+        try {
+            const response = await fetch("/chatEconomiaEnergetica/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ question: userMessage })
+            });
+            const answer = await response.text();
+            chatBox.innerHTML += `<p><strong>Energia Bot:</strong> ${answer}</p>`;
+        } catch (error) {
+            chatBox.innerHTML += `<p><strong>Erro:</strong> ${error.message}</p>`;
+        }
+        document.getElementById("userMessage").value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById("logoutButton").addEventListener("click", function() {
+        window.location.href = "/logout";
+    });
+</script>
+
+</body>
+</html>
