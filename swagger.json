@@ -1,0 +1,277 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "EcoMetric API",
+      "version": "1.0.0",
+      "description": "API para testar operações CRUD nas tabelas T_ECOMETRIC_PROJETOS e T_ECOMETRIC_CONSUMO_ENERGIA."
+    },
+    "paths": {
+      "/projetos": {
+        "get": {
+          "summary": "Listar todos os projetos",
+          "responses": {
+            "200": {
+              "description": "Lista de projetos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Projeto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Criar um novo projeto",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projeto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Projeto criado com sucesso"
+            }
+          }
+        }
+      },
+      "/projetos/{id}": {
+        "get": {
+          "summary": "Obter um projeto pelo ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do projeto",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Projeto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Projeto não encontrado"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar um projeto",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projeto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Projeto atualizado com sucesso"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Excluir um projeto",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Projeto excluído com sucesso"
+            }
+          }
+        }
+      },
+      "/consumo-energia": {
+        "get": {
+          "summary": "Listar todos os registros de consumo de energia",
+          "responses": {
+            "200": {
+              "description": "Lista de registros de consumo",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ConsumoEnergia"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Criar um novo registro de consumo de energia",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumoEnergia"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Registro criado com sucesso"
+            }
+          }
+        }
+      },
+      "/consumo-energia/{id}": {
+        "get": {
+          "summary": "Obter um registro de consumo pelo ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do registro de consumo",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConsumoEnergia"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Registro não encontrado"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar um registro de consumo",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumoEnergia"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Registro atualizado com sucesso"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Excluir um registro de consumo",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Registro excluído com sucesso"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Projeto": {
+          "type": "object",
+          "properties": {
+            "id_projeto": { "type": "integer" },
+            "nm_projeto": { "type": "string" },
+            "ds_ideia_projeto": { "type": "string" },
+            "ds_pontos_melhorias": { "type": "string" },
+            "ds_topicos_principais": { "type": "string" },
+            "vl_porcentagem_melhoria": { "type": "number" },
+            "st_projeto": { "type": "string" }
+          },
+          "required": ["nm_projeto", "st_projeto"]
+        },
+        "ConsumoEnergia": {
+          "type": "object",
+          "properties": {
+            "id_consumo_energia": { "type": "integer" },
+            "nr_unidade_consumidora": { "type": "string" },
+            "nr_fatura": { "type": "string" },
+            "dt_referencia_inicial": { "type": "string", "format": "date" },
+            "dt_referencia_final": { "type": "string", "format": "date" },
+            "dt_emissao": { "type": "string", "format": "date" },
+            "dt_vencimento": { "type": "string", "format": "date" },
+            "st_pagamento": { "type": "string" },
+            "qtd_consumo_kwh": { "type": "number" },
+            "tp_leitura": { "type": "string" },
+            "qtd_leitura_anterior": { "type": "number" },
+            "vl_total": { "type": "number" },
+            "vl_tarifa_consumo": { "type": "number" },
+            "vl_tarifas_impostos": { "type": "number" },
+            "st_bandeira_tarifa": { "type": "string" }
+          },
+          "required": ["nr_unidade_consumidora", "nr_fatura", "dt_emissao"]
+        }
+      }
+    }
+  }
+  
